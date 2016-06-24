@@ -10,6 +10,7 @@
   "devDependencies": {
     "ava": "0.15.x",
     "coveralls": "2.x",
+    "markdown-it": "^7.0.0",
     "nyc": "6.x",
     "posthtml": "^0.8.7",
     "standard": "7.x"

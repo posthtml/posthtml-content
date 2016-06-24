@@ -28,7 +28,7 @@ Now pass in an object to posthtml-content. Each key in the object represents an 
 
 ```js
 const content = require('posthtml-content')({
-  windoge: (str) => str.replace(/windows/g, 'windoge')
+  windoge: (str) => str.replace(/windows/g, 'winDOGE')
 })
 
 posthtml([plugin]).process(html)
@@ -37,7 +37,27 @@ posthtml([plugin]).process(html)
 The plugin will remove the custom attribute from the element and replace its contents with your transformed version. Wow!
 
 ```html
-<p>Please use windoge 98</p>
+<p>Please use winDOGE 98</p>
+```
+
+You can use external libraries for this as well, no problem. Just make sure you are passing in a function that takes a string and returns a string. You might have to wrap the library function if it doesn't behave like this, but it will work with anything that transforms content.
+
+```html
+<p md>Wow, it's **markdown**!</p>
+```
+
+```js
+const MarkdownIt = require('markdown-it')
+const md = new MarkdownIt() // can pass options here
+const content = require('posthtml-content')({
+  md: md.renderInline.bind(md)
+})
+
+posthtml([plugin]).process(html)
+```
+
+```html
+<p>Wow, it's <strong>markdown</strong>!</p>
 ```
 
 ### License & Contributing
