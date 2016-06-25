@@ -24,13 +24,13 @@ test('1 - Text', (t) => {
     })
 })
 
-test('2 - Text Lorem', (t) => {
-  const html = fixtures('txt.lorem.html')
+test('2 - Strings ES2015', (t) => {
+  const html = fixtures('es6.html')
+  const text = 'exercitation'
   const plugins = [ plugin({
-    txt: () => `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    es6: () => `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
     eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    veniam, quis nostrud ${text.toUpperCase()} ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
     velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
     est laborum.`
@@ -40,7 +40,7 @@ test('2 - Text Lorem', (t) => {
     .process(html)
     .then((result) => result.html)
     .then((html) => {
-      t.regex(/<aritcle>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<\/article>/, html)
+      t.regex(/<aritcle>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud EXERCITATION ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<\/article>/, html)
     })
 })
 
@@ -57,7 +57,6 @@ test('3 - Markdown', (t) => {
     .process(html)
     .then((result) => result.html)
     .then((html) => {
-      console.log(html)
       t.regex(/<p><strong>Markdown<\/strong><\/p><article>Markdown is an <strong>easy<\/strong> to <em>learn<\/em> and <em>write<\/em> language.If you want to learn more about it checkout the following link: <a href="https:\/\/github.com\/markdown-it\/markdown-it">Markdown<\/a><\/article>/, html)
     })
 })
@@ -76,7 +75,6 @@ test('4 - PostCSS', (t) => {
     .process(html)
     .then((result) => result.html)
     .then((html) => {
-      console.log(html)
       t.regex(/<style>.test {text-transform: uppercase;}.test__hello {color: red}.test__world {color: blue;}<\/style>/, html)
     })
 })
@@ -95,7 +93,6 @@ test('5 - Babel', (t) => {
     .process(html)
     .then((result) => result.html)
     .then((html) => {
-      console.log(html)
       t.regex(/<script>'use strict';var hello = 'Hello!';var person = {greeting: function greeting(txt) {console.log(text);}};person.greeting(hello);<\script>/, html)
     })
 })
