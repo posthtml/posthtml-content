@@ -1,6 +1,4 @@
-// ------------------------------------
-// #POSTHTML - CONTENT - TEST
-// ------------------------------------
+'use strict'
 
 const test = require('ava')
 
@@ -12,7 +10,7 @@ const plugin = require('..')
 
 const fixtures = (file) => readFileSync(join(__dirname, 'fixtures', file))
 
-test('1 - Text', (t) => {
+test('Text', (t) => {
   const html = fixtures('txt.html')
   const plugins = [ plugin({ txt: () => 'Lorem' }) ]
 
@@ -24,27 +22,24 @@ test('1 - Text', (t) => {
     })
 })
 
-test('2 - Strings ES2015', (t) => {
+test('Strings ES2015', (t) => {
   const html = fixtures('es6.html')
   const text = 'exercitation'
   const plugins = [ plugin({
     es6: () => `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
     eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-    veniam, quis nostrud ${text.toUpperCase()} ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-    est laborum.`
+    veniam, quis nostrud ${text.toUpperCase()}.`
   }) ]
 
   posthtml(plugins)
     .process(html)
     .then((result) => result.html)
     .then((html) => {
-      t.regex(/<aritcle>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud EXERCITATION ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<\/article>/, html)
+      t.regex(/<aritcle>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud EXERCITATION.<\/article>/, html)
     })
 })
 
-test('3 - Markdown', (t) => {
+test('Markdown', (t) => {
   const html = fixtures('md.html')
 
   const markdown = require('markdown-it')()
@@ -61,7 +56,7 @@ test('3 - Markdown', (t) => {
     })
 })
 
-test('4 - PostCSS', (t) => {
+test('PostCSS', (t) => {
   const html = fixtures('style.html')
 
   const postcss = require('postcss')([ require('postcss-nested')() ])
@@ -79,7 +74,7 @@ test('4 - PostCSS', (t) => {
     })
 })
 
-test('5 - Babel', (t) => {
+test('Babel', (t) => {
   const html = fixtures('script.html')
 
   const babel = require('babel-core')
