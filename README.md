@@ -32,14 +32,14 @@ npm i -S posthtml-content
 Start with some html you want to transform in some way. Add an attribute of your choosing to an element that has contents you want to transform.
 
 ```html
-<p txt>Please use windows 98</p>
+<p windoge>Please use windows 98</p>
 ```
 
-Now pass in an object to posth-content. Each key in the object represents an attribute that will be searched for in the html. The value is a function that will get that element's contents as a string, and replace the contents with whatever string is returned from the function.
+Now pass in an object to posthtml-content. Each key in the object represents an attribute that will be searched for in the html. The value is a function that will get that element's contents as a string, and replace the contents with whatever string is returned from the function.
 
 ```js
 const content = require('posthtml-content')({
-  txt: (ctx) => ctx.replace(/windows/g, 'winDOGE')
+  windoge: (ctx) => ctx.replace(/windows/g, 'winDOGE')
 })
 
 posthtml([plugin]).process(html)
@@ -54,24 +54,24 @@ The plugin will remove the custom attribute from the element and replace its con
 You can use external libraries for this as well, no problem. Just make sure you are passing in a function that takes a string and returns a string. You might have to wrap the library function if it doesn't behave like this, but it will work with anything that transforms content.
 
 ```html
-<p key>Transform me!</p>
+<p name>Transform me!</p>
 ```
 
 ```js
 const fn = require('fn')
 
 const plugin = require('posthtml-content')({
-  key: (ctx) => fn(ctx)
+  name: (ctx) => fn(ctx)
 })
 
-posth([plugin]).process(html)
+posthtml([plugin]).process(html)
 ```
 
 ```js
 const fn = require('fn')
 
 const plugin = require('posthtml-content')({
-  select: fn.bind(fn)
+  name: fn.bind(fn)
 })
 
 posthtml([plugin]).process(html)
