@@ -4,12 +4,11 @@
 [![DevDependencies][devdeps]][devdeps-url]
 [![Standard Code Style][style]][style-url]
 
-# PostHTML Content <img align="right" width="200" height="200" title="PostHTML logo" src="http://posthtml.github.io/posthtml/logo.svg">
+# PostHTML Content <img align="right" width="180" height="180" title="PostHTML logo" src="http://posthtml.github.io/posthtml/logo.svg">
 
 | Branch               | Build                     | Coverage                  |
 |:--------------------:|:-------------------------:|:-------------------------:|
 |  Master              | ![travis]                 | ![cover]                  |
-|  Release/1.0.0       | ![travis-rel]             | ![cover-rel]              |
 
 A plugin for [posthtml](https://github.com/posthtml/posthtml) that allows customized content transforms.
 
@@ -39,7 +38,7 @@ Now pass in an object to posthtml-content. Each key in the object represents an 
 
 ```js
 const content = require('posthtml-content')({
-  windoge: (ctx) => ctx.replace(/windows/g, 'winDOGE')
+  windoge: (str) => str.replace(/windows/g, 'winDOGE')
 })
 
 posthtml([plugin]).process(html)
@@ -58,20 +57,20 @@ You can use external libraries for this as well, no problem. Just make sure you 
 ```
 
 ```js
-const fn = require('fn')
+const transform = require('transform')
 
 const plugin = require('posthtml-content')({
-  name: (ctx) => fn(ctx)
+  name: (content) => transform(content)
 })
 
 posthtml([plugin]).process(html)
 ```
 
 ```js
-const fn = require('fn')
+const transform = require('transform')
 
 const plugin = require('posthtml-content')({
-  name: fn.bind(fn)
+  name: transform.bind(transform)
 })
 
 posthtml([plugin]).process(html)
@@ -183,17 +182,9 @@ posthtml([plugin]).process(html)
 ```
 
 ## LICENSE & CONTRIBUTING
+
+- Details on the license [can be found here](LICENSE)
 - Details on running tests and contributing [can be found here](CONTRIBUTING.md)
-
-> MIT License
-
-> Copyright (c) 2016 static-dev
-
-> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [npm]: https://img.shields.io/npm/v/posthtml-content.svg
 [npm-url]: https://npmjs.com/package/posthtml-content
@@ -213,20 +204,8 @@ posthtml([plugin]).process(html)
 [travis]: http://img.shields.io/travis/static-dev/posthtml-content.svg
 [travis-url]: https://travis-ci.org/static-dev/posthtml-content
 
-[travis-rel]: http://img.shields.io/travis/static-dev/posthtml-content.svg?branch=release/1.0.0
-[travis-rel-url]:https://travis-ci.org/static-dev/posthtml-content?branch=release/1.0.0
-
-[travis-dev]: http://img.shields.io/travis/static-dev/posthtml-content.svg?branch=develop
-[travis-dev-url]: https://travis-ci.org/static-dev/posthtml-content?branch=develop
-
 [cover]: https://coveralls.io/repos/github/static-dev/posthtml-content/badge.svg?branch=master
 [cover-url]: https://coveralls.io/github/static-dev/posthtml-content?branch=master
-
-[cover-rel]: https://coveralls.io/repos/github/static-dev/posthtml-content/badge.svg?branch=release/1.0.0
-[cover-rel-url]: https://coveralls.io/github/static-dev/posthtml-content?branch=release/1.0.0
-
-[cover-dev]: https://coveralls.io/repos/github/static-dev/posthtml-content/badge.svg?branch=develop
-[cover-dev-url]: https://coveralls.io/github/static-dev/posthtml-content?branch=develop
 
 [license]: https://img.shields.io/github/license/static-dev/posthtml-content.svg
 [license-url]: https://raw.githubusercontent.com/static-dev/posthtml-content/master/LICENSE
