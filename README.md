@@ -1,5 +1,4 @@
 [![NPM][npm]][npm-url]
-[![Node][node]][node-url]
 [![Dependencies][deps]][deps-url]
 [![DevDependencies][devdeps]][devdeps-url]
 [![Standard Code Style][style]][style-url]
