@@ -1,4 +1,5 @@
 License (MIT)
+-------------
 
 Copyright (c) 2016 static-dev
 
