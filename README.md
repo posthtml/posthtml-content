@@ -7,7 +7,7 @@
 <div style="display: flex; align-items: center; justify-content: center;">
   <img width="180" height="180"
     src="http://posthtml.github.io/posthtml/logo.svg">
-  <h1><strong>Content</h1>
+  <h1><strong>Content</strong></h1>
 </div>
 
 A plugin for [posthtml](https://github.com/posthtml/posthtml) that allows customized content transforms.
