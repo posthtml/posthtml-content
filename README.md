@@ -1,13 +1,14 @@
 [![NPM][npm]][npm-url]
-[![Dependencies][deps]][deps-url]
-[![DevDependencies][devdeps]][devdeps-url]
+[![Deps][deps]][deps-url]
+[![Tests][travis]][travis-url]
+[![Coverage][cover]][cover-url]  
 [![Standard Code Style][style]][style-url]
 
-# PostHTML Content <img align="right" width="180" height="180" title="PostHTML logo" src="http://posthtml.github.io/posthtml/logo.svg">
-
-| Branch               | Build                     | Coverage                  |
-|:--------------------:|:-------------------------:|:-------------------------:|
-|  Master              | ![travis]                 | ![cover]                  |
+<div style="display: flex; align-items: center; justify-content: center;">
+  <img width="180" height="180"
+    src="http://posthtml.github.io/posthtml/logo.svg">
+  <h1><strong>Content</h1>
+</div>
 
 A plugin for [posthtml](https://github.com/posthtml/posthtml) that allows customized content transforms.
 
@@ -193,9 +194,6 @@ posthtml([plugin]).process(html)
 
 [deps]: https://david-dm.org/static-dev/posthtml-content.svg
 [deps-url]: https://david-dm.org/static-dev/posthtml-content
-
-[devdeps]: https://david-dm.org/static-dev/posthtml-content/dev-status.svg
-[devdeps-url]: https://david-dm.org/static-dev/posthtml-content#info=devDependencies
 
 [style]: https://img.shields.io/badge/code%20style-standard-yellow.svg
 [style-url]: http://standardjs.com/
