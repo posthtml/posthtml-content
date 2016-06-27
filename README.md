@@ -1,16 +1,16 @@
 [![NPM][npm]][npm-url]
 [![Deps][deps]][deps-url]
 [![Tests][travis]][travis-url]
-[![Coverage][cover]][cover-url]  
+[![Coverage][cover]][cover-url]
 [![Standard Code Style][style]][style-url]
 
 <div align="center">
   <a href="https://github.com/posthtml/posthtml">
     <img width="180" height="180"
       src="http://posthtml.github.io/posthtml/logo.svg">
-    <strong style="font-size: 48px;">Content</strong>
   </a>
-  <p>A plugin for that allows customized content transforms.<p>
+  <h1>Content Plugin</h1>
+  <p>A plugin that allows customized content transforms.<p>
 </div>
 
 > **Note:** This project is in early development, and versioning is a little different. [Read this](http://markup.im/#q4_cRZ1Q) for more details.
