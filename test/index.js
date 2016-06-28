@@ -91,3 +91,39 @@ test('Babel', (t) => {
       t.regex(/<script>'use strict';var hello = 'Hello!';var person = {greeting: function greeting(txt) {console.log(text);}};person.greeting(hello);<\script>/, html)
     })
 })
+
+test('Async callback', (t) => {
+  const html = fixtures('style.html')
+
+  const postcss = require('postcss')([ require('postcss-nested')() ])
+  const options = { map: false }
+
+  const plugins = [ plugin({
+    style: (ctx, callback) => postcss.process(ctx, options).then((result) => callback(result.css))
+  }) ]
+
+  posthtml(plugins)
+    .process(html)
+    .then((result) => result.html)
+    .then((html) => {
+      t.regex(/<style>.test {text-transform: uppercase;}.test__hello {color: red}.test__world {color: blue;}<\/style>/, html)
+    })
+})
+
+test('Async promise', (t) => {
+  const html = fixtures('style.html')
+
+  const postcss = require('postcss')([ require('postcss-nested')() ])
+  const options = { map: false }
+
+  const plugins = [ plugin({
+    style: (ctx) => postcss.process(ctx, options).then((result) => result.css)
+  }) ]
+
+  posthtml(plugins)
+    .process(html)
+    .then((result) => result.html)
+    .then((html) => {
+      t.regex(/<style>.test {text-transform: uppercase;}.test__hello {color: red}.test__world {color: blue;}<\/style>/, html)
+    })
+})
