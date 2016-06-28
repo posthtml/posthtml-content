@@ -7,7 +7,7 @@
   },
   "description": "Content transformations for PostHTML",
   "scripts": {
-    "prestest": "standard",
+    "pretest": "standard",
     "test": "nyc ava",
     "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls"
   },

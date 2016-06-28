@@ -182,6 +182,50 @@ posthtml([plugin]).process(html)
 </script>
 ```
 
+#### Async callback or Promise
+
+```sugarss
+<style postcss>
+  .test
+    text-transform: uppercase;
+
+    &__hello
+      color: red;
+
+    &__world
+      color: blue;
+</style>
+```
+
+```js
+const postcss = require('postcss')([ require('postcss-nested')() ])
+const options = { parser: require('sugarss'), map: false }
+
+const plugin = require('posthtml-content')({
+  postcss: (css) => postcss.process(css, options).then((result) => result.css) // Promise
+  // postcss: (css, callback) => postcss.process(css, options).then((result) => callback(result.css)) // or callback
+})
+
+posthtml([plugin]).process(html)
+
+```
+
+```html
+<style>
+  .test {
+    text-transform: uppercase;
+  }
+
+  .test__hello {
+    color: red;
+  }
+
+  .test__world {
+    color: blue;
+  }
+</style>
+```
+
 ## LICENSE & CONTRIBUTING
 
 - Details on the license [can be found here](LICENSE)
