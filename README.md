@@ -53,34 +53,6 @@ The plugin will remove the custom attribute from the element and replace its con
 
 You can use external libraries for this as well, no problem. Just make sure you are passing in a function that takes a string and returns a string. You might have to wrap the library function if it doesn't behave like this, but it will work with anything that transforms content.
 
-```html
-<p name>Transform me!</p>
-```
-
-```js
-const transform = require('transform')
-
-const plugin = require('posthtml-content')({
-  name: (content) => transform(content)
-})
-
-posthtml([plugin]).process(html)
-```
-
-```js
-const transform = require('transform')
-
-const plugin = require('posthtml-content')({
-  name: transform.bind(transform)
-})
-
-posthtml([plugin]).process(html)
-```
-
-```html
-<p>👍</p>
-```
-
 ## Examples
 
 #### Markdown
@@ -182,7 +154,7 @@ posthtml([plugin]).process(html)
 </script>
 ```
 
-#### Async callback or Promise
+#### Async
 
 ```sugarss
 <style postcss>
@@ -197,17 +169,33 @@ posthtml([plugin]).process(html)
 </style>
 ```
 
+##### Promise
+
 ```js
 const postcss = require('postcss')([ require('postcss-nested')() ])
 const options = { parser: require('sugarss'), map: false }
 
 const plugin = require('posthtml-content')({
-  postcss: (css) => postcss.process(css, options).then((result) => result.css) // Promise
-  // postcss: (css, callback) => postcss.process(css, options).then((result) => callback(result.css)) // or callback
+  postcss: (css) => postcss.process(css, options).then((result) => result.css)
 })
 
 posthtml([plugin]).process(html)
 
+```
+
+###### Callback
+
+```js
+const postcss = require('postcss')([ require('postcss-nested')() ])
+const options = { parser: require('sugarss'), map: false }
+
+const plugin = require('posthtml-content')({
+  postcss: (css, cb) => {
+    postcss.process(css, options).then((result) => cb(result.css))
+  }
+})
+
+posthtml([plugin]).process(html)
 ```
 
 ```html
@@ -248,6 +236,3 @@ posthtml([plugin]).process(html)
 
 [cover]: https://coveralls.io/repos/github/static-dev/posthtml-content/badge.svg?branch=master
 [cover-url]: https://coveralls.io/github/static-dev/posthtml-content?branch=master
-
-[license]: https://img.shields.io/github/license/static-dev/posthtml-content.svg
-[license-url]: https://raw.githubusercontent.com/static-dev/posthtml-content/master/LICENSE
