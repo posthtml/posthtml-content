@@ -1,3 +1,13 @@
-node_modules
+# OS
+
 .DS_Store
+._*
+
+# NODEJS
+
 .nyc_output
+
+npm-debug.log
+
+coverage
+node_modules
