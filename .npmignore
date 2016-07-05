@@ -1,23 +1,7 @@
-# FILES
-
 .travis.yml
 .gitignore
 .editorconfig
-
-CHANGELOG.md
-CONTRIBUTING.md
-README.md
-
-*.test.js
-
-npm-debug.log
-
-# DIRECTORIES
-
 .github
 .nyc_output
-
-src
 test
 coverage
-node_modules
