@@ -1,6 +1,6 @@
 {
   "name": "posthtml-content",
-  "description": "Content transformations for PostHTML",
+  "description": "Flexible content transform for posthtml",
   "version": "0.0.0",
   "author": "static-dev",
   "ava": {
