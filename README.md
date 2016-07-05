@@ -6,6 +6,8 @@
 [![Coverage][cover]][cover-url]
 [![Standard Code Style][style]][style-url]
 
+Flexible content transform for posthtml
+
 > **Note:** This project is in early development, and versioning is a little different. [Read this](http://markup.im/#q4_cRZ1Q) for more details.
 
 ## Why Should You Care?
