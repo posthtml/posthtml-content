@@ -1,18 +1,14 @@
 {
   "name": "posthtml-content",
-  "main": "lib",
-  "version": "0.0.0",
-  "engines": {
-    "node": ">=6"
-  },
   "description": "Content transformations for PostHTML",
-  "scripts": {
-    "pretest": "standard",
-    "test": "nyc ava",
-    "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls"
-  },
+  "version": "0.0.0",
+  "author": "static-dev",
   "ava": {
     "verbose": "true"
+  },
+  "bugs": "https://github.com/static-dev/posthtml-content/issues",
+  "dependencies": {
+    "when": "^3.7.7"
   },
   "devDependencies": {
     "ava": "0.15.x",
@@ -26,15 +22,22 @@
     "posthtml": "^0.8.7",
     "standard": "7.x"
   },
-  "keywords": [
-    "HTML",
-    "PostHTML",
-    "PostHTML Plugin",
-    "PostHTML Content"
-  ],
-  "author": "static-dev",
-  "repository": "static-dev/posthtml-content",
-  "bugs": "https://github.com/static-dev/posthtml-content/issues",
+  "engines": {
+    "node": ">=6"
+  },
   "homepage": "https://github.com/static-dev/posthtml-content",
-  "license": "MIT"
+  "keywords": [
+    "html",
+    "posthtml",
+    "content",
+    "posthtmlplugin"
+  ],
+  "license": "MIT",
+  "main": "lib",
+  "repository": "static-dev/posthtml-content",
+  "scripts": {
+    "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls",
+    "pretest": "standard",
+    "test": "nyc ava"
+  }
 }

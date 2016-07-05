@@ -1,28 +1,21 @@
+# PostHTML Content <img align="right" width="220" height="200" title="PostHTML logo" src="http://posthtml.github.io/posthtml/logo.svg">
+
 [![NPM][npm]][npm-url]
 [![Deps][deps]][deps-url]
 [![Tests][travis]][travis-url]
 [![Coverage][cover]][cover-url]
 [![Standard Code Style][style]][style-url]
 
-<div align="center">
-  <a href="https://github.com/posthtml/posthtml">
-    <img width="180" height="180"
-      src="http://posthtml.github.io/posthtml/logo.svg">
-  </a>
-  <h1>Content Plugin</h1>
-  <p>A plugin that allows customized content transforms.<p>
-</div>
-
 > **Note:** This project is in early development, and versioning is a little different. [Read this](http://markup.im/#q4_cRZ1Q) for more details.
 
-## Why?
+## Why Should You Care?
 
 Rather than having a separate plugin for each kind of content transform you want to be able to do, why not just have one? Parse natural language, markdown, or whatever else you want with a minimalistic and simple interface 🍻
 
 ## Install
 
 ```bash
-npm i -S posthtml-content
+npm i posthtml-content --save
 ```
 
 > **Note:** This project is compatible with node v6+ only
@@ -35,7 +28,7 @@ Start with some html you want to transform in some way. Add an attribute of your
 <p windoge>Please use windows 98</p>
 ```
 
-Now pass in an object to posthtml-content. Each key in the object represents an attribute that will be searched for in the html. The value is a function that will get that element's contents as a string, and replace the contents with whatever string is returned from the function.
+Now pass in an object to `posthtml-content`. Each key in the object represents an attribute that will be searched for in the html. The value is a function that will get that element's contents as a string, and replace the contents with whatever string is returned from the function.
 
 ```js
 const content = require('posthtml-content')({
@@ -50,6 +43,8 @@ The plugin will remove the custom attribute from the element and replace its con
 ```html
 <p>Please use winDOGE 98</p>
 ```
+
+If you return an [A+ compliant promise](https://promisesaplus.com/) from your content function, it will resolve and work in your templates as well.
 
 You can use external libraries for this as well, no problem. Just make sure you are passing in a function that takes a string and returns a string. You might have to wrap the library function if it doesn't behave like this, but it will work with anything that transforms content.
 
@@ -154,7 +149,7 @@ posthtml([plugin]).process(html)
 </script>
 ```
 
-#### Async
+#### Return a Promise
 
 ```sugarss
 <style postcss>
@@ -169,55 +164,24 @@ posthtml([plugin]).process(html)
 </style>
 ```
 
-##### Promise
-
 ```js
 const postcss = require('postcss')([ require('postcss-nested')() ])
 const options = { parser: require('sugarss'), map: false }
 
 const plugin = require('posthtml-content')({
-  postcss: (css) => postcss.process(css, options).then((result) => result.css)
+  postcss: (css) => {
+    return postcss.process(css, options).then((res) => res.css)
+  }
 })
 
 posthtml([plugin]).process(html)
 
 ```
 
-###### Callback
+## License & Contributing
 
-```js
-const postcss = require('postcss')([ require('postcss-nested')() ])
-const options = { parser: require('sugarss'), map: false }
-
-const plugin = require('posthtml-content')({
-  postcss: (css, cb) => {
-    postcss.process(css, options).then((result) => cb(result.css))
-  }
-})
-
-posthtml([plugin]).process(html)
-```
-
-```html
-<style>
-  .test {
-    text-transform: uppercase;
-  }
-
-  .test__hello {
-    color: red;
-  }
-
-  .test__world {
-    color: blue;
-  }
-</style>
-```
-
-## LICENSE & CONTRIBUTING
-
-- Details on the license [can be found here](LICENSE)
-- Details on running tests and contributing [can be found here](CONTRIBUTING.md)
+- Details on the license [can be found here](LICENSE.md)
+- Details on running tests and contributing [can be found here](contributing.md)
 
 [npm]: https://img.shields.io/npm/v/posthtml-content.svg
 [npm-url]: https://npmjs.com/package/posthtml-content
