@@ -2,11 +2,11 @@
   "name": "posthtml-content",
   "description": "Flexible content transform for posthtml",
   "version": "0.0.1",
-  "author": "static-dev",
+  "author": "Jeff Escalante",
   "ava": {
     "verbose": "true"
   },
-  "bugs": "https://github.com/static-dev/posthtml-content/issues",
+  "bugs": "https://github.com/posthtml/posthtml-content/issues",
   "dependencies": {
     "when": "^3.7.7"
   },
@@ -25,7 +25,7 @@
   "engines": {
     "node": ">=6"
   },
-  "homepage": "https://github.com/static-dev/posthtml-content",
+  "homepage": "https://github.com/posthtml/posthtml-content",
   "keywords": [
     "html",
     "posthtml",
@@ -34,7 +34,7 @@
   ],
   "license": "MIT",
   "main": "lib",
-  "repository": "static-dev/posthtml-content",
+  "repository": "posthtml/posthtml-content",
   "scripts": {
     "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls",
     "pretest": "standard",

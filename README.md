@@ -191,14 +191,14 @@ posthtml([plugin]).process(html)
 [node]: https://img.shields.io/node/v/gh-badges.svg
 [node-url]: https://nodejs.org
 
-[deps]: https://david-dm.org/static-dev/posthtml-content.svg
-[deps-url]: https://david-dm.org/static-dev/posthtml-content
+[deps]: https://david-dm.org/posthtml/posthtml-content.svg
+[deps-url]: https://david-dm.org/posthtml/posthtml-content
 
 [style]: https://img.shields.io/badge/code%20style-standard-yellow.svg
 [style-url]: http://standardjs.com/
 
-[travis]: http://img.shields.io/travis/static-dev/posthtml-content.svg
-[travis-url]: https://travis-ci.org/static-dev/posthtml-content
+[travis]: http://img.shields.io/travis/posthtml/posthtml-content.svg
+[travis-url]: https://travis-ci.org/posthtml/posthtml-content
 
-[cover]: https://coveralls.io/repos/github/static-dev/posthtml-content/badge.svg?branch=master
-[cover-url]: https://coveralls.io/github/static-dev/posthtml-content?branch=master
+[cover]: https://coveralls.io/repos/github/posthtml/posthtml-content/badge.svg?branch=master
+[cover-url]: https://coveralls.io/github/posthtml/posthtml-content?branch=master
