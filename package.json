@@ -19,7 +19,7 @@
     "nyc": "6.x",
     "postcss": "^5.0.21",
     "postcss-nested": "^1.0.0",
-    "posthtml": "^0.8.7",
+    "posthtml": "static-dev/posthtml",
     "standard": "7.x"
   },
   "engines": {
