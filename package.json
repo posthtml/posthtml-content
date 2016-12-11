@@ -1,43 +1,57 @@
 {
   "name": "posthtml-content",
-  "description": "Flexible content transform for posthtml",
-  "version": "0.0.2",
-  "author": "Jeff Escalante",
+  "description": "Content Plugin for PostHTML",
+  "version": "1.0.0",
+  "main": "index.js",
+  "engines": { "node": ">=4" },
+  "scripts": {
+    "lint": "standard",
+    "test": "nyc ava test/index.js",
+    "logs": "standard-changelog > CHANGELOG.md",
+    "docs": "jsdoc2md index.js > INDEX.md",
+    "clean": "rm -rf .nyc_output coverage jsdoc-api dmd",
+    "start": "sudo npm run clean && npm run lint && sudo npm test"
+  },
+  "dependencies": {
+    "read-cache": "^1.0.0"
+  },
+  "devDependencies": {
+    "ava": "0.17.x",
+    "coveralls": "2.x",
+    "nyc": "10.x",
+    "postcss": "^5.x",
+    "postcss-nested": "^1.x",
+    "posthtml": "^0.9.x",
+    "standard": "8.x"
+  },
   "ava": {
     "verbose": "true"
   },
-  "bugs": "https://github.com/posthtml/posthtml-content/issues",
-  "dependencies": {
-    "when": "^3.7.7"
-  },
-  "devDependencies": {
-    "ava": "0.15.x",
-    "babel-core": "^6.10.1",
-    "babel-preset-es2015": "^6.9.0",
-    "coveralls": "2.x",
-    "markdown-it": "^7.0.0",
-    "nyc": "6.x",
-    "postcss": "^5.0.21",
-    "postcss-nested": "^1.0.0",
-    "posthtml": "^0.8.7",
-    "standard": "7.x"
-  },
-  "engines": {
-    "node": ">=6"
-  },
-  "homepage": "https://github.com/posthtml/posthtml-content",
+  "files": [
+    "lib",
+    "index.js",
+    "LICENSE"
+  ],
   "keywords": [
-    "html",
-    "posthtml",
     "content",
+    "posthtml",
     "posthtmlplugin"
   ],
-  "license": "MIT",
-  "main": "lib",
-  "repository": "posthtml/posthtml-content",
-  "scripts": {
-    "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls",
-    "pretest": "standard",
-    "test": "nyc ava"
-  }
+  "author": {
+    "name": "Michael Ciniawsky",
+    "email": "michael.ciniawsky@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Jeff Escalante",
+      "email": "gh.je@mailhero.io"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/posthtml/posthtml-content.git"
+  },
+  "homepage": "https://github.com/posthtml/posthtml-content",
+  "bugs": "https://github.com/posthtml/posthtml-content/issues",
+  "license": "MIT"
 }
