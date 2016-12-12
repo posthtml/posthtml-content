@@ -1,80 +1,98 @@
-# PostHTML Content <img align="right" width="220" height="200" title="PostHTML logo" src="http://posthtml.github.io/posthtml/logo.svg">
+[![npm][npm]][npm-url]
+[![node][node]][node-url]
+[![deps][deps]][deps-url]
+[![tests][tests]][tests-url]
+[![coverage][cover]][cover-url]
+[![code style][style]][style-url]
+[![chat][chat]][chat-url]
 
-[![NPM][npm]][npm-url]
-[![Deps][deps]][deps-url]
-[![Tests][travis]][travis-url]
-[![Coverage][cover]][cover-url]
-[![Standard Code Style][style]][style-url]
+<div align="center">
+  <a href="https://github.com/posthtml/posthtml">
+    <img width="220" height="200" title="PosHTML"           src="http://posthtml.github.io/posthtml/logo.svg">
+  </a>
+  <h1>Content Plugin</h1>
+</div>
 
-Flexible content transform for posthtml
-
-> **Note:** This project is in early development, and versioning is a little different. [Read this](http://markup.im/#q4_cRZ1Q) for more details.
-
-## Why Should You Care?
-
-Rather than having a separate plugin for each kind of content transform you want to be able to do, why not just have one? Parse natural language, markdown, or whatever else you want with a minimalistic and simple interface 🍻
-
-## Install
+<h2 align="center">Install</h2>
 
 ```bash
-npm i posthtml-content --save
+npm i -D posthtml-content
 ```
 
-> **Note:** This project is compatible with node v6+ only
+<h2 align="center">Usage</h2>
 
-## Usage
-
-Start with some html you want to transform in some way. Add an attribute of your choosing to an element that has contents you want to transform.
+Add an attribute of your choosing to an element that has contents you want to transform.
 
 ```html
-<p windoge>Please use windows 98</p>
+<p txt>Please use Windows 98</p>
 ```
-
-Now pass in an object to `posthtml-content`. Each key in the object represents an attribute that will be searched for in the html. The value is a function that will get that element's contents as a string, and replace the contents with whatever string is returned from the function.
 
 ```js
-const content = require('posthtml-content')({
-  windoge: (str) => str.replace(/windows/g, 'winDOGE')
-})
+const content = require('posthtml-content')
 
-posthtml([plugin]).process(html)
+const options = { txt: (str) => str.replace(/Windows/g, 'winDOGE') }
+
+posthtml([ content(options) ])
+  .process(html)
+  .then((result) => result.html)
 ```
-
-The plugin will remove the custom attribute from the element and replace its contents with your transformed version. Wow!
 
 ```html
-<p>Please use winDOGE 98</p>
+<p>Please use WinDOGE 98</p>
 ```
 
-If you return an [A+ compliant promise](https://promisesaplus.com/) from your content function, it will resolve and work in your templates as well.
+Now pass in an object to `posthtml-content`. Each object property represents an attribute that will be searched for in the HTML. The value is a function that will get that element's contents as a string, and replace the contents with whatever string is returned from the function.
 
-You can use external libraries for this as well, no problem. Just make sure you are passing in a function that takes a string and returns a string. You might have to wrap the library function if it doesn't behave like this, but it will work with anything that transforms content.
+The custom attribute will be removed from the element and its contents are replaced with your transformed version.
 
-## Examples
+You can use any external library (e.g PostCSS, Babel, Marked) within the transform function. Just make sure you are passing in a function that takes a string and returns a string. You might have to wrap the library function if it doesn't behave like this, but it will work with anything that transforms content.
 
-#### Markdown
+It also possible to load contents from an external file, which gets transformed and applied as the elements content.
+
+```html
+<article txt="lorem.txt"></article>
+```
+
+```js
+const content = require('posthtml-content')
+
+const options = { txt: (file) => file.toUpperCase() }
+
+posthtml([ content(options) ])
+  .process(html)
+  .then((result) => result.html)
+```
+
+```html
+<artcile>LOREM IPSUM DOLOR SIT AMET,...</article>
+```
+
+<h2 align="center">Examples</h2>
+
+### Markdown
 
 ```html
 <p md>Wow, it's **Markdown**!</p>
 ```
 
 ```js
-const markdown = require('markdown-it')(/* options */)
+const marked = require('marked')
+const content = require('posthtml-content')
 
-const plugin = require('posthtml-content')({
-  md: (md) => markdown.renderInline(md)
-})
+const options = { md: (md) => marked.render(md) }
 
-posthtml([plugin]).process(html)
+posthtml([ content(options) ])
+  .process(html)
+  .then((result) => result.html)
 ```
 
 ```html
 <p>Wow, it's <strong>Markdown</strong>!</p>
 ```
 
-#### PostCSS
+### PostCSS
 
-```sugarss
+```html
 <style postcss>
   .test
     text-transform: uppercase;
@@ -88,15 +106,22 @@ posthtml([plugin]).process(html)
 ```
 
 ```js
-const postcss = require('postcss')([ require('postcss-nested')() ])
-const options = { parser: require('sugarss'), map: false }
+const postcss = require('postcss')
 
-const plugin = require('posthtml-content')({
-  postcss: (css) => postcss.process(css, options).css
-})
+const content = require('posthtml-content')
 
-posthtml([plugin]).process(html)
+const options = {
+  css: (css) => {
+    const plugins = [ require('postcss-nested')() ]
+    const options = { parser: require('sugarss'), map: false }
 
+    return postcss(plugins).process(css, options).css
+  }
+}
+
+posthtml([ content(options) ])
+  .process(html)
+  .then((result) => result.html)
 ```
 
 ```html
@@ -115,45 +140,57 @@ posthtml([plugin]).process(html)
 </style>
 ```
 
-#### Babel
+### Babel
 
 ```html
 <script babel>
   const hello = 'Hello World!'
+
   let greeter = {
     greet (msg) { alert (msg) }
   }
+
   greeter.greet(hello)
 </script>
 ```
 
 ```js
 const babel = require('babel-core')
-const options = { presets: ["es2015"], sourceMaps: false }
 
-const plugin = require('posthtml-content')({
-  babel: (js) => babel.transform(js, options).code
-})
+const content = require('posthtml-content')
 
-posthtml([plugin]).process(html)
+const options = {
+  babel: (js) => {
+    const options = { presets: [ "es2015" ], sourceMaps: false }
+
+    return babel.transform(js, options).code
+  }
+}
+
+posthtml([ content(options) ])
+  .process(html)
+  .then((result) => result.html)
 ```
 
 ```html
 <script>
   'use strict';
+
   var hello = "Hello World!";
+
   var greeter = {
     greet: function greet (msg) {
       alert(msg);
     };
   };
+
   greeter.greet(hello);
 </script>
 ```
 
-#### Return a Promise
+### Async
 
-```sugarss
+```html
 <style postcss>
   .test
     text-transform: uppercase;
@@ -167,28 +204,77 @@ posthtml([plugin]).process(html)
 ```
 
 ```js
-const postcss = require('postcss')([ require('postcss-nested')() ])
-const options = { parser: require('sugarss'), map: false }
+const postcss = require('postcss')
 
-const plugin = require('posthtml-content')({
-  postcss: (css) => {
-    return postcss.process(css, options).then((res) => res.css)
+const content = require('posthtml-content')
+
+const options = {
+  css: (css) => {
+    const plugins = [ require('postcss-nested')() ]
+    const options = { parser: require('sugarss'), map: false }
+
+    return postcss(plugins)
+      .process(css, options)
+      .then((result) => result.css)
   }
-})
+}
 
-posthtml([plugin]).process(html)
-
+posthtml([ content(options) ])
+  .process(html)
+  .then((result) => result.html)
 ```
 
-## License & Contributing
+```html
+<style>
+  .test {
+    text-transform: uppercase;
+  }
 
-- Details on the license [can be found here](LICENSE.md)
-- Details on running tests and contributing [can be found here](contributing.md)
+  .test__hello {
+    color: red;
+  }
+
+  .test__world {
+    color: blue;
+  }
+</style>
+```
+
+<h2 align="center">Maintainer</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+        <img width="150 height="150"
+        src="https://github.com/michael-ciniawsky.png?v=3&s=150">
+        <br>
+        <a href="https://github.com/michael-ciniawsky">Michael Ciniawsky</a>
+      </td>
+    </tr>
+  <tbody>
+</table>
+
+<h2 align="center">Contributors</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+        <img width="150 height="150"
+        src="https://github.com/jescalan.png?v=3&s=150">
+        <br>
+        <a href="https://github.com/jescalan">Jeff Escalante</a>
+      </td>
+    </tr>
+  <tbody>
+</table>
+
 
 [npm]: https://img.shields.io/npm/v/posthtml-content.svg
 [npm-url]: https://npmjs.com/package/posthtml-content
 
-[node]: https://img.shields.io/node/v/gh-badges.svg
+[node]: https://img.shields.io/node/v/posthtml-content.svg
 [node-url]: https://nodejs.org
 
 [deps]: https://david-dm.org/posthtml/posthtml-content.svg
@@ -197,8 +283,14 @@ posthtml([plugin]).process(html)
 [style]: https://img.shields.io/badge/code%20style-standard-yellow.svg
 [style-url]: http://standardjs.com/
 
-[travis]: http://img.shields.io/travis/posthtml/posthtml-content.svg
-[travis-url]: https://travis-ci.org/posthtml/posthtml-content
+[tests]: http://img.shields.io/travis/posthtml/posthtml-content.svg
+[tests-url]: https://travis-ci.org/posthtml/posthtml-content
 
-[cover]: https://coveralls.io/repos/github/posthtml/posthtml-content/badge.svg?branch=master
-[cover-url]: https://coveralls.io/github/posthtml/posthtml-content?branch=master
+[cover]: https://coveralls.io/repos/github/posthtml/posthtml-content/badge.svg
+[cover-url]: https://coveralls.io/github/posthtml/posthtml-content
+
+[style]: https://img.shields.io/badge/code%20style-standard-yellow.svg
+[style-url]: http://standardjs.com/
+
+[chat]: https://badges.gitter.im/posthtml/posthtml.svg
+[chat-url]: https://gitter.im/posthtml/posthtml
