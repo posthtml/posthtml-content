@@ -1,7 +1,7 @@
 {
   "name": "posthtml-content",
   "description": "Flexible content transform for posthtml",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "author": "Jeff Escalante",
   "ava": {
     "verbose": "true"

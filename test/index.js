@@ -16,22 +16,6 @@ test('Text', (t) => {
     .then((html) => { t.truthy((/<p>Lorem<\/p>/).exec(html)) })
 })
 
-test('Order keys', (t) => {
-  const html = getFixture('order-keys.html')
-  const plugins = [ plugin({
-    z: str => str.replace(/foo/g, 'foo bar Z'),
-    a: str => str.replace(/foo/g, 'foo bar A')
-  }) ]
-
-  return posthtml(plugins)
-    .process(html)
-    .then((result) => result.html)
-    .then((html) => {
-      t.truthy((/<div>Here's some foo bar Z<\/div>/).exec(html))
-      t.truthy((/<div>Here's some foo bar A<\/div>/).exec(html))
-    })
-})
-
 test('Strings ES2015', (t) => {
   const html = getFixture('es6.html')
   const text = 'exercitation'
