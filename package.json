@@ -15,7 +15,7 @@
     "babel-core": "^6.10.1",
     "babel-preset-es2015": "^6.9.0",
     "coveralls": "2.x",
-    "markdown-it": "^7.0.0",
+    "markdown-it": "^12.3.2",
     "nyc": "6.x",
     "postcss": "^5.0.21",
     "postcss-nested": "^1.0.0",
