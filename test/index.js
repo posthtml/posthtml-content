@@ -16,6 +16,16 @@ test('Text', (t) => {
     .then((html) => { t.truthy((/<p>Lorem<\/p>/).exec(html)) })
 })
 
+test('Attr', (t) => {
+  const html = getFixture('attr.html')
+  const plugins = [ plugin({ text: (content, attribute) => content + attribute }) ]
+
+  return posthtml(plugins)
+    .process(html)
+    .then((result) => result.html)
+    .then((html) => { t.truthy((/<p>Text with text from attr.<\/p>/).exec(html)) })
+})
+
 test('Order keys', (t) => {
   const html = getFixture('order-keys.html')
   const plugins = [ plugin({
