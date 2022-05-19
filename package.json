@@ -17,7 +17,7 @@
     "coveralls": "2.x",
     "markdown-it": "^7.0.0",
     "nyc": "6.x",
-    "postcss": "^5.0.21",
+    "postcss": "^7.0.36",
     "postcss-nested": "^1.0.0",
     "posthtml": "^0.8.7",
     "standard": "7.x"
