@@ -1,10 +1,10 @@
 {
   "name": "posthtml-content",
-  "description": "Flexible content transform for posthtml",
+  "description": "Flexible content transform for PostHTML",
   "version": "0.1.0",
   "author": "Jeff Escalante",
   "ava": {
-    "verbose": "true"
+    "verbose": true
   },
   "bugs": "https://github.com/posthtml/posthtml-content/issues",
   "dependencies": {
@@ -30,7 +30,7 @@
     "html",
     "posthtml",
     "content",
-    "posthtmlplugin"
+    "posthtml-plugin"
   ],
   "license": "MIT",
   "main": "lib",
