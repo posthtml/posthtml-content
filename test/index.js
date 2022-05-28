@@ -1,126 +1,116 @@
-const test = require('ava')
-const {join} = require('path')
 const {readFileSync} = require('fs')
+const {join} = require('path')
+const test = require('ava')
 const posthtml = require('posthtml')
 const plugin = require('..')
 
-const getFixture = (file) => readFileSync(join(__dirname, 'fixtures', file), 'utf8')
+const getFixture = file => readFileSync(join(__dirname, 'fixtures', file), 'utf8')
 
-test('Text', (t) => {
-  const html = getFixture('txt.html')
-  const plugins = [ plugin({ txt: () => 'Lorem' }) ]
+test('Text', async t => {
+  const fixture = getFixture('txt.html')
+  const plugins = [plugin({txt: () => 'Lorem'})]
 
-  return posthtml(plugins)
-    .process(html)
-    .then((result) => result.html)
-    .then((html) => { t.truthy((/<p>Lorem<\/p>/).exec(html)) })
+  const {html} = await posthtml(plugins).process(fixture)
+
+  t.truthy((/<p>Lorem<\/p>/).exec(html))
 })
 
-test('Attr', (t) => {
-  const html = getFixture('attr.html')
-  const plugins = [ plugin({ text: (content, attribute) => content + attribute }) ]
+test('Attr', async t => {
+  const fixture = getFixture('attr.html')
+  const plugins = [plugin({text: (content, attribute) => content + attribute})]
 
-  return posthtml(plugins)
-    .process(html)
-    .then((result) => result.html)
-    .then((html) => { t.truthy((/<p>Text with text from attr.<\/p>/).exec(html)) })
+  const {html} = await posthtml(plugins).process(fixture)
+
+  t.truthy((/<p>Text with text from attr.<\/p>/).exec(html))
 })
 
-test('Order keys', (t) => {
-  const html = getFixture('order-keys.html')
-  const plugins = [ plugin({
-    z: str => str.replace(/foo/g, 'foo bar Z'),
-    a: str => str.replace(/foo/g, 'foo bar A')
-  }) ]
+test('Order keys', async t => {
+  const fixture = getFixture('order-keys.html')
+  const plugins = [plugin({
+    z: s => s.replace(/foo/g, 'foo bar Z'),
+    a: s => s.replace(/foo/g, 'foo bar A')
+  })]
 
-  return posthtml(plugins)
-    .process(html)
-    .then((result) => result.html)
-    .then((html) => {
-      t.truthy((/<div>Here's some foo bar Z<\/div>/).exec(html))
-      t.truthy((/<div>Here's some foo bar A<\/div>/).exec(html))
-    })
+  const {html} = await posthtml(plugins).process(fixture)
+
+  t.truthy((/<div>Here's some foo bar Z<\/div>/).exec(html))
+  t.truthy((/<div>Here's some foo bar A<\/div>/).exec(html))
 })
 
-test('Strings ES2015', (t) => {
-  const html = getFixture('es6.html')
+test('Strings ES2015', async t => {
+  const fixture = getFixture('es6.html')
   const text = 'exercitation'
-  const plugins = [ plugin({
-    es6: () => `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ${text.toUpperCase()}.`
-  }) ]
+  const plugins = [plugin({
+    es6: () => `Lorem ipsum dolor sit ${text.toUpperCase()}.`
+  })]
 
-  return posthtml(plugins)
-    .process(html)
-    .then((result) => result.html)
-    .then((html) => {
-      t.truthy((/<article>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud EXERCITATION.<\/article>/).exec(html))
-    })
+  const {html} = await posthtml(plugins).process(fixture)
+
+  t.truthy((/<article>Lorem ipsum dolor sit EXERCITATION.<\/article>/).exec(html))
 })
 
-test('Markdown', (t) => {
-  const html = getFixture('md.html')
+test('Markdown', async t => {
+  const fixture = getFixture('markdown.html')
   const markdown = require('markdown-it')()
-  const plugins = [ plugin({
-    md: (ctx) => markdown.renderInline(ctx)
-  }) ]
+  const plugins = [plugin({
+    md: s => markdown.renderInline(s)
+  })]
 
-  return posthtml(plugins)
-    .process(html)
-    .then((result) => result.html)
-    .then((html) => {
-      t.truthy((/<h1><strong>Markdown<\/strong><\/h1>\n\s\s\s\s<article>Markdown is an <strong>easy<\/strong> to <em>learn<\/em> and <em>write<\/em> language. If you want to learn more about it checkout the following link: <a href="https:\/\/github.com\/markdown-it\/markdown-it">Markdown<\/a><\/article>/).exec(html))
-    })
+  const {html} = await posthtml(plugins).process(fixture)
+
+  t.truthy((/<p>much <strong>markdown<\/strong><\/p>/).exec(html))
 })
 
-test('PostCSS', (t) => {
-  const html = getFixture('style.html')
-  const postcss = require('postcss')([ require('postcss-nested')() ])
-  const options = { map: false }
+test('PostCSS', async t => {
+  const fixture = getFixture('style.html')
+  const postcss = require('postcss')([
+    require('postcss-nested')
+  ])
 
-  const plugins = [ plugin({
-    postcss: (ctx) => postcss.process(ctx, options).css
-  }) ]
-
-  return posthtml(plugins)
-    .process(html)
-    .then((result) => result.html)
-    .then((html) => {
-      t.truthy((/<style>\s*\.test\s{\s*text-transform:\suppercase;\s*}\s*\.test__hello\s{\s*color:\sred;\s*}\n\.test__world\s{\s*color:\sblue;\s*}\s*<\/style>/).exec(html))
+  const plugins = [
+    plugin({
+      postcss: ctx => postcss.process(ctx).css
     })
+  ]
+
+  const {html} = await posthtml(plugins).process(fixture)
+
+  t.truthy((/.test__hello\s{\s*color:\sred;\s*}/).exec(html))
+  t.truthy((/.test__world\s{\s*color:\sblue;\s*}/).exec(html))
 })
 
-test('Babel', (t) => {
-  const html = getFixture('script.html')
+test('Babel', async t => {
+  const fixture = getFixture('script.html')
   const babel = require('babel-core')
-  const options = { presets: ['es2015'], compact: false, sourceMaps: false }
-  const plugins = [ plugin({
-    babel: (ctx) => babel.transform(ctx, options).code
-  }) ]
-
-  return posthtml(plugins)
-    .process(html)
-    .then((result) => result.html)
-    .then((html) => {
-      t.truthy((/<script>'use\sstrict';\n\nvar\shello\s=\s'Hello!';\nvar\sperson\s=\s{\s*greeting:\sfunction\sgreeting\(txt\)\s{\s*console\.log\(text\);\s*}\n};\nperson\.greeting\(hello\);<\/script>/).exec(html))
+  const options = {
+    presets: ['es2015'],
+    compact: false,
+    sourceMaps: false
+  }
+  const plugins = [
+    plugin({
+      babel: ctx => babel.transform(ctx, options).code
     })
+  ]
+
+  const {html} = await posthtml(plugins).process(fixture)
+
+  t.truthy((/<script>'use\sstrict';\n\nvar\shello\s=\s'Hello!';\nvar\sperson\s=\s{\s*greeting:\sfunction\sgreeting\(txt\)\s{\s*console\.log\(text\);\s*}\n};\nperson\.greeting\(hello\);<\/script>/).exec(html))
 })
 
-test('Async promise', (t) => {
-  const html = getFixture('style.html')
-
-  const postcss = require('postcss')([ require('postcss-nested')() ])
-  const options = { map: false }
-
-  const plugins = [ plugin({
-    postcss: (ctx, callback) => {
-      return postcss.process(ctx, options).then((res) => res.css)
-    }
-  }) ]
-
-  return posthtml(plugins)
-    .process(html)
-    .then((result) => result.html)
-    .then((html) => {
-      t.truthy((/<style>\s*\.test\s{\s*text-transform:\suppercase;\s*}\s*\.test__hello\s{\s*color:\sred;\s*}\n\.test__world\s{\s*color:\sblue;\s*}\s*<\/style>/).exec(html))
+test('Async promise', async t => {
+  const fixture = getFixture('style.html')
+  const postcss = require('postcss')([
+    require('postcss-nested')
+  ])
+  const plugins = [
+    plugin({
+      postcss: ctx => postcss.process(ctx, {from: undefined}).then(({css}) => css)
     })
+  ]
+
+  const {html} = await posthtml(plugins).process(fixture)
+
+  t.truthy((/.test__hello\s{\s*color:\sred;\s*}/).exec(html))
+  t.truthy((/.test__world\s{\s*color:\sblue;\s*}/).exec(html))
 })
