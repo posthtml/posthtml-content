@@ -3,27 +3,23 @@
   "description": "Flexible content transform for PostHTML",
   "version": "0.1.0",
   "author": "Jeff Escalante",
-  "ava": {
-    "verbose": true
-  },
   "bugs": "https://github.com/posthtml/posthtml-content/issues",
   "dependencies": {
-    "when": "^3.7.7"
+    "when": "^3.7.8"
   },
   "devDependencies": {
-    "ava": "0.15.x",
-    "babel-core": "^6.10.1",
-    "babel-preset-es2015": "^6.9.0",
-    "coveralls": "2.x",
-    "markdown-it": "^7.0.0",
-    "nyc": "6.x",
-    "postcss": "^5.0.21",
-    "postcss-nested": "^1.0.0",
-    "posthtml": "^0.8.7",
-    "standard": "7.x"
+    "ava": "^4.2.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "c8": "^7.11.3",
+    "markdown-it": "^13.0.1",
+    "postcss": "^8.4.14",
+    "postcss-nested": "^5.0.6",
+    "posthtml": "^0.16.6",
+    "xo": "^0.49.0"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=12.0.0"
   },
   "homepage": "https://github.com/posthtml/posthtml-content",
   "keywords": [
@@ -36,8 +32,7 @@
   "main": "lib",
   "repository": "posthtml/posthtml-content",
   "scripts": {
-    "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls",
-    "pretest": "standard",
-    "test": "nyc ava"
+    "pretest": "xo",
+    "test": "c8 ava"
   }
 }
