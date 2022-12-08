@@ -1,7 +1,7 @@
 {
   "name": "posthtml-content",
   "description": "Flexible content transform for PostHTML",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Jeff Escalante",
   "bugs": "https://github.com/posthtml/posthtml-content/issues",
   "dependencies": {
