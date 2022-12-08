@@ -11,7 +11,7 @@
     "ava": "^4.2.0",
     "babel-core": "^6.26.3",
     "babel-preset-es2015": "^6.24.1",
-    "c8": "^7.11.3",
+    "c8": "^7.12.0",
     "markdown-it": "^13.0.1",
     "postcss": "^8.4.14",
     "postcss-nested": "^5.0.6",
