@@ -167,7 +167,6 @@ const options = {
   sourceMaps: false
 }
 
-
 const plugin = content({
   babel: js => babel.transform(js, options).code
 })
