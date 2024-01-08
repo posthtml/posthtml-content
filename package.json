@@ -10,6 +10,7 @@
   "repository": "posthtml/posthtml-content",
   "scripts": {
     "pretest": "xo",
+    "release": "np",
     "test": "c8 ava"
   },
   "devDependencies": {
@@ -18,6 +19,7 @@
     "babel-preset-es2015": "^6.24.1",
     "c8": "^9.0.0",
     "markdown-it": "^14.0.0",
+    "np": "^9.2.0",
     "postcss": "^8.4.14",
     "postcss-nested": "^6.0.1",
     "posthtml": "^0.16.6",
