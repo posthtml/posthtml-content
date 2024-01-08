@@ -21,7 +21,25 @@ test('Attr', async t => {
 
   const {html} = await posthtml(plugins).process(fixture)
 
-  t.truthy((/<p>Text with text from attr.<\/p>/).exec(html))
+  t.is(html.replaceAll(/\s+/g, '').trim(), '<p>Textfromattr.<span>withtextfromattr.</span>fromattr.</p>')
+})
+
+test('As-is', async t => {
+  const fixture = getFixture('attr.html')
+  const plugins = [plugin({text: 'as is'})]
+
+  const {html} = await posthtml(plugins).process(fixture)
+
+  t.is(html.replaceAll(/\s+/g, '').trim(), '<p>Text<span>withtext</span></p>')
+})
+
+test('Nested', async t => {
+  const fixture = getFixture('nested.html')
+  const plugins = [plugin({uppercase: content => content.toUpperCase()})]
+
+  const {html} = await posthtml(plugins).process(fixture)
+
+  t.is(html.replaceAll(/\s+/g, '').trim(), '<div>SOME<br><span>TEXT</span></div>')
 })
 
 test('Order keys', async t => {

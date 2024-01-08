@@ -3,9 +3,14 @@
   "description": "Flexible content transform for PostHTML",
   "version": "0.1.2",
   "author": "Jeff Escalante",
+  "license": "MIT",
+  "main": "lib",
   "bugs": "https://github.com/posthtml/posthtml-content/issues",
-  "dependencies": {
-    "when": "^3.7.8"
+  "homepage": "https://github.com/posthtml/posthtml-content",
+  "repository": "posthtml/posthtml-content",
+  "scripts": {
+    "pretest": "xo",
+    "test": "c8 ava"
   },
   "devDependencies": {
     "ava": "^4.2.0",
@@ -21,18 +26,10 @@
   "engines": {
     "node": ">=12.0.0"
   },
-  "homepage": "https://github.com/posthtml/posthtml-content",
   "keywords": [
     "html",
     "posthtml",
     "content",
     "posthtml-plugin"
-  ],
-  "license": "MIT",
-  "main": "lib",
-  "repository": "posthtml/posthtml-content",
-  "scripts": {
-    "pretest": "xo",
-    "test": "c8 ava"
-  }
+  ]
 }
