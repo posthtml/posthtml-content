@@ -1,55 +1,80 @@
-# PostHTML Content <img align="right" width="220" height="200" title="PostHTML logo" src="https://posthtml.github.io/posthtml/logo.svg">
+<div align="center">
+  <img width="150" height="150" alt="PostHTML" src="https://posthtml.github.io/posthtml/logo.svg">
+  <h1>PostHTML Content</h1>
+  <p>Apply functions to nodes through custom attributes</p>
 
-[![NPM][npm-shield]][npm-url]
-[![Build][github-ci-shield]][github-ci-url]
-[![Downloads][npm-stats-shield]][npm-stats-url]
-[![License][license-shield]][license-url]
+  [![Version][npm-version-shield]][npm]
+  [![Build][github-ci-shield]][github-ci]
+  [![Downloads][npm-stats-shield]][npm-stats]
+  [![License][license-shield]][license]
+</div>
 
-Flexible content transform for PostHTML.
+## About
 
-> **Note:** This project is in early development, and versioning is a little different. [Read this](https://semver.org/#spec-item-4) for more details.
+`posthtml-content` allows you to define functions that map to custom HTML attributes. When the plugin runs, it will search for those attributes and apply the corresponding function to the contents of the node.
 
-## Why Should You Care?
+## Install
 
-Rather than having a separate plugin for each kind of content transform you want to be able to do, why not just have one? Parse natural language, markdown, or whatever else you want with a minimalistic and simple interface 🍻
-
-## Installation
-
-```bash
-npm i posthtml-content --save
 ```
-
-> **Note:** This project is compatible with node v12+ only
+npm i posthtml-content
+```
 
 ## Usage
 
-Start with some HTML you want to transform in some way. Add an attribute of your choosing to an element that has contents you want to transform.
+Start with some HTML you want to transform in some way. Add an attribute of your choosing to an element that has contents you want to transform. For example:
 
 ```html
-<p windoge>Please use windows 98</p>
+<p uppercase>posthtml is great</p>
 ```
 
-Now pass in an object to `posthtml-content`.
-
-Each key in the object represents an attribute that will be searched for in the HTML. The value is a function that will receive that element's contents as a string, and will replace them with whatever string is returned from the function.
+Now process your HTML with `posthtml-content`:
 
 ```js
-const content = require('posthtml-content')({
-  windoge: (str) => str.replace(/windows/g, 'winDOGE')
-})
+import posthtml from'posthtml'
+import content from'posthtml-content'
 
-posthtml([plugin]).process(html)
+const html = posthtml([
+    content({
+      // Map your custom attribute to a function that takes and returns a string
+      uppercase: str => str.toUpperCase()
+    })
+  ])
+  .process('<p uppercase>posthtml is great</p>')
+  .then(result => result.html)
 ```
 
-The plugin will remove the custom attribute from the element and replace its contents with your transformed version.
+Result:
 
 ```html
-<p>Please use winDOGE 98</p>
+<p>POSTHTML IS GREAT</p>
 ```
 
 If you return an [A+ compliant promise](https://promisesaplus.com/) from your content function, it will resolve and work in your templates as well.
 
 You can use external libraries for this as well, no problem. Just make sure you are passing in a function that takes a string and returns a string. You might have to wrap the library function if it doesn't behave like this, but it will work with anything that transforms content.
+
+### Using the attribute's value
+
+You can also access the attribute's value in your function, as the second argument.
+
+```js
+import posthtml from'posthtml'
+import content from'posthtml-content'
+
+const html = posthtml([
+    content({
+      append: (content, attrValue) => content + attrValue
+    })
+  ])
+  .process('<p append=" bar">foo</p>')
+  .then(result => result.html)
+```
+
+Result:
+
+```html
+<p>foo bar</p>
+```
 
 ## Examples
 
@@ -60,13 +85,14 @@ You can use external libraries for this as well, no problem. Just make sure you 
 ```
 
 ```js
-const markdown = require('markdown-it')(/* options */)
+import markdown from 'markdown-it'
+import content from 'posthtml-content'
 
-const plugin = require('posthtml-content')({
-  md: (md) => markdown.renderInline(md)
-})
-
-const {html} = await posthtml([plugin]).process(html)
+const {html} = await posthtml([
+  content({
+    md: md => markdown.renderInline(md)
+  })
+]).process(html)
 ```
 
 Result:
@@ -91,10 +117,12 @@ Result:
 ```
 
 ```js
-const postcss = require('postcss')([ require('postcss-nested') ])
+import postcss from 'postcss'
+import nested from 'postcss-nested'
+import content from 'posthtml-content'
 
-const plugin = require('posthtml-content')({
-  postcss: css => postcss.process(css).css
+const plugin = content({
+  postcss: css => postcss(nested()).process(css).css
 })
 
 const {html} = await posthtml([plugin]).process(html)
@@ -131,10 +159,16 @@ Result:
 ```
 
 ```js
-const babel = require('babel-core')
-const options = { presets: ["es2015"], sourceMaps: false }
+import babel from 'babel-core'
+import content from 'posthtml-content'
 
-const plugin = require('posthtml-content')({
+const options = {
+  presets: ['es2015'],
+  sourceMaps: false
+}
+
+
+const plugin = content({
   babel: js => babel.transform(js, options).code
 })
 
@@ -172,11 +206,13 @@ Result:
 ```
 
 ```js
-const postcss = require('postcss')([ require('postcss-nested') ])
+import postcss from 'postcss'
+import nested from 'postcss-nested'
+import content from 'posthtml-content'
 
-const plugin = require('posthtml-content')({
+const plugin = content({
   postcss: css => {
-    return postcss.process(css).then(res => res.css)
+    return postcss(nested()).process(css).then(res => res.css)
   }
 })
 
@@ -191,14 +227,11 @@ const {html} = await posthtml([plugin]).process(html)
 
 See [contributing.md](contributing.md) for details on running tests and contributing.
 
-[npm-url]: https://npmjs.com/package/posthtml-content
-[npm-shield]: https://img.shields.io/npm/v/posthtml-content.svg
-
+[npm]: https://www.npmjs.com/package/posthtml-content
+[npm-version-shield]: https://img.shields.io/npm/v/posthtml-content.svg
+[npm-stats]: http://npm-stat.com/charts.html?package=posthtml-content
 [npm-stats-shield]: https://img.shields.io/npm/dt/posthtml-content.svg
-[npm-stats-url]: https://npm-stat.com/charts.html?package=posthtml-content&from=2016-06-25
-
-[github-ci-url]: https://github.com/posthtml/posthtml-content/actions
+[github-ci]: https://github.com/posthtml/posthtml-content/actions/workflows/nodejs.yml
 [github-ci-shield]: https://github.com/posthtml/posthtml-content/actions/workflows/nodejs.yml/badge.svg
-
-[license-url]: ./LICENSE
+[license]: ./license
 [license-shield]: https://img.shields.io/npm/l/posthtml-content.svg
