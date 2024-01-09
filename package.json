@@ -9,7 +9,6 @@
   "homepage": "https://github.com/posthtml/posthtml-content",
   "repository": "posthtml/posthtml-content",
   "scripts": {
-    "pretest": "xo",
     "release": "np",
     "test": "c8 ava"
   },
