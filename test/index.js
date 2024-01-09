@@ -7,12 +7,16 @@ const plugin = require('..')
 const getFixture = file => readFileSync(join(__dirname, 'fixtures', file), 'utf8')
 
 test('Text', async t => {
-  const fixture = getFixture('txt.html')
-  const plugins = [plugin({txt: () => 'Lorem'})]
+  const fixture = getFixture('text.html')
+  const plugins = [plugin({
+    'replace-with-lorem': () => 'Lorem',
+    ceil: content => Math.ceil(Number.parseFloat(content)),
+  })]
 
   const {html} = await posthtml(plugins).process(fixture)
 
   t.truthy((/<p>Lorem<\/p>/).exec(html))
+  t.truthy((/<div>2<\/div>/).exec(html))
 })
 
 test('Attr', async t => {
