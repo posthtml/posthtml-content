@@ -23,7 +23,7 @@
     "postcss": "^8.4.14",
     "postcss-nested": "^6.0.1",
     "posthtml": "^0.16.6",
-    "xo": "0.53.0"
+    "xo": "0.57.0"
   },
   "engines": {
     "node": ">=14.0.0"
