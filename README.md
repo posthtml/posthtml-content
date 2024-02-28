@@ -16,7 +16,7 @@
 ## Install
 
 ```
-npm i posthtml-content
+npm i posthtml posthtml-content
 ```
 
 ## Usage
@@ -34,11 +34,11 @@ import posthtml from'posthtml'
 import content from'posthtml-content'
 
 const html = posthtml([
-    content({
-      // Map your custom attribute to a function that takes and returns a string
-      uppercase: str => str.toUpperCase()
-    })
-  ])
+  content({
+    // Map your custom attribute to a function that takes and returns a string
+    uppercase: str => str.toUpperCase()
+  })
+])
   .process('<p uppercase>posthtml is great</p>')
   .then(result => result.html)
 ```
@@ -62,10 +62,10 @@ import posthtml from'posthtml'
 import content from'posthtml-content'
 
 const html = posthtml([
-    content({
-      append: (content, attrValue) => content + attrValue
-    })
-  ])
+  content({
+    append: (content, attrValue) => content + attrValue
+  })
+])
   .process('<p append=" bar">foo</p>')
   .then(result => result.html)
 ```
@@ -222,15 +222,11 @@ const {html} = await posthtml([plugin]).process(html)
 
 `posthtml-content` is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## Contributing
-
-See [contributing.md](contributing.md) for details on running tests and contributing.
-
 [npm]: https://www.npmjs.com/package/posthtml-content
 [npm-version-shield]: https://img.shields.io/npm/v/posthtml-content.svg
 [npm-stats]: http://npm-stat.com/charts.html?package=posthtml-content
 [npm-stats-shield]: https://img.shields.io/npm/dt/posthtml-content.svg
 [github-ci]: https://github.com/posthtml/posthtml-content/actions/workflows/nodejs.yml
 [github-ci-shield]: https://github.com/posthtml/posthtml-content/actions/workflows/nodejs.yml/badge.svg
-[license]: ./license
+[license]: ./LICENSE
 [license-shield]: https://img.shields.io/npm/l/posthtml-content.svg
