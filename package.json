@@ -13,23 +13,23 @@
     "node": ">=18"
   },
   "scripts": {
-    "pretest": "xo",
-    "release": "np",
-    "test": "c8 ava"
+    "dev": "vitest",
+    "test": "vitest run --coverage",
+    "release": "np"
   },
   "files": [
     "lib"
   ],
   "devDependencies": {
-    "ava": "^5.3.1",
+    "@vitest/coverage-v8": "^1.3.1",
     "babel-core": "^6.26.3",
     "babel-preset-es2015": "^6.24.1",
-    "c8": "^9.0.0",
     "markdown-it": "^14.0.0",
     "np": "^9.2.0",
     "postcss": "^8.4.14",
     "postcss-nested": "^6.0.1",
     "posthtml": "^0.16.6",
+    "vitest": "^1.3.1",
     "xo": "0.53.0"
   },
   "keywords": [

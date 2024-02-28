@@ -1,8 +1,16 @@
-const {readFileSync} = require('fs')
-const {join} = require('path')
-const test = require('ava')
-const posthtml = require('posthtml')
-const plugin = require('..')
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { join, dirname } from 'node:path'
+import { test, expect } from 'vitest'
+import posthtml from 'posthtml'
+import plugin from '../lib/index.js'
+import markdown from 'markdown-it'
+import postcss from 'postcss'
+import postcssNested from 'postcss-nested'
+import postcss from 'postcss'
+import babel from 'babel-core'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const getFixture = file => readFileSync(join(__dirname, 'fixtures', file), 'utf8')
 
@@ -15,8 +23,8 @@ test('Text', async t => {
 
   const {html} = await posthtml(plugins).process(fixture)
 
-  t.truthy((/<p>Lorem<\/p>/).exec(html))
-  t.truthy((/<div>2<\/div>/).exec(html))
+  expect(html).toContain('<p>Lorem</p>')
+  expect(html).toContain('<div>2</div>')
 })
 
 test('Attr', async t => {
@@ -25,7 +33,7 @@ test('Attr', async t => {
 
   const {html} = await posthtml(plugins).process(fixture)
 
-  t.is(html.replace(/\s+/g, '').trim(), '<p>Textfromattr.<span>withtextfromattr.</span>fromattr.</p>')
+  expect(html).toBe('<p>\n  Text\n   from attr.<span>with text from attr.</span>\n from attr.</p>\n')
 })
 
 test('As-is', async t => {
@@ -34,7 +42,7 @@ test('As-is', async t => {
 
   const {html} = await posthtml(plugins).process(fixture)
 
-  t.is(html.replace(/\s+/g, '').trim(), '<p>Text<span>withtext</span></p>')
+  expect(html).toBe('<p>\n  Text\n  <span>with text</span>\n</p>\n')
 })
 
 test('Nested', async t => {
@@ -43,7 +51,7 @@ test('Nested', async t => {
 
   const {html} = await posthtml(plugins).process(fixture)
 
-  t.is(html.replace(/\s+/g, '').trim(), '<div>SOME<br><span>TEXT</span></div>')
+  expect(html).toBe('<div>\n  SOME\n  <br>\n  <span>TEXT</span>\n</div>\n')
 })
 
 test('Order keys', async t => {
@@ -55,8 +63,8 @@ test('Order keys', async t => {
 
   const {html} = await posthtml(plugins).process(fixture)
 
-  t.truthy((/<div>Here's some foo bar Z<\/div>/).exec(html))
-  t.truthy((/<div>Here's some foo bar A<\/div>/).exec(html))
+  expect(html).toContain('<div>Here\'s some foo bar A</div>')
+  expect(html).toContain('<div>Here\'s some foo bar Z</div>')
 })
 
 test('Strings ES2015', async t => {
@@ -68,42 +76,38 @@ test('Strings ES2015', async t => {
 
   const {html} = await posthtml(plugins).process(fixture)
 
-  t.truthy((/<article>Lorem ipsum dolor sit EXERCITATION.<\/article>/).exec(html))
+  expect(html).toContain('<article>Lorem ipsum dolor sit EXERCITATION.</article>')
 })
 
 test('Markdown', async t => {
   const fixture = getFixture('markdown.html')
-  const markdown = require('markdown-it')()
+  const md = markdown()
   const plugins = [plugin({
-    md: s => markdown.renderInline(s)
+    md: s => md.renderInline(s)
   })]
 
   const {html} = await posthtml(plugins).process(fixture)
 
-  t.truthy((/<p>much <strong>markdown<\/strong><\/p>/).exec(html))
+  expect(html).toContain('<p>much <strong>markdown</strong></p>')
 })
 
 test('PostCSS', async t => {
   const fixture = getFixture('style.html')
-  const postcss = require('postcss')([
-    require('postcss-nested')
-  ])
 
   const plugins = [
     plugin({
-      postcss: ctx => postcss.process(ctx).css
+      postcss: ctx => postcss([postcssNested]).process(ctx).css
     })
   ]
 
   const {html} = await posthtml(plugins).process(fixture)
 
-  t.truthy((/.test__hello\s{\s*color:\sred;\s*}/).exec(html))
-  t.truthy((/.test__world\s{\s*color:\sblue;\s*}/).exec(html))
+  expect(html.replace(/\s+/g, '').trim()).toContain('.test__hello{color:red;}')
+  expect(html.replace(/\s+/g, '').trim()).toContain('.test__world{color:blue;}')
 })
 
 test('Babel', async t => {
   const fixture = getFixture('script.html')
-  const babel = require('babel-core')
   const options = {
     presets: ['es2015'],
     compact: false,
@@ -117,22 +121,20 @@ test('Babel', async t => {
 
   const {html} = await posthtml(plugins).process(fixture)
 
-  t.truthy((/<script>'use\sstrict';\n\nvar\shello\s=\s'Hello!';\nvar\sperson\s=\s{\s*greeting:\sfunction\sgreeting\(txt\)\s{\s*console\.log\(text\);\s*}\n};\nperson\.greeting\(hello\);<\/script>/).exec(html))
+  expect(html).toContain('greeting: function greeting(txt) {')
 })
 
 test('Async promise', async t => {
   const fixture = getFixture('style.html')
-  const postcss = require('postcss')([
-    require('postcss-nested')
-  ])
   const plugins = [
     plugin({
-      postcss: ctx => postcss.process(ctx, {from: undefined}).then(({css}) => css)
+      postcss: ctx => postcss([postcssNested]).process(ctx, {from: undefined}).then(({css}) => css)
     })
   ]
 
   const {html} = await posthtml(plugins).process(fixture)
 
-  t.truthy((/.test__hello\s{\s*color:\sred;\s*}/).exec(html))
-  t.truthy((/.test__world\s{\s*color:\sblue;\s*}/).exec(html))
+  expect(html.replace(/\s+/g, '').trim()).toContain('.test__hello{color:red;}')
+
+  expect(html.replace(/\s+/g, '').trim()).toContain('.test__world{color:blue;}')
 })
