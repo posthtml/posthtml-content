@@ -4,12 +4,13 @@
   "version": "1.0.3",
   "author": "Jeff Escalante",
   "license": "MIT",
-  "main": "lib",
   "bugs": "https://github.com/posthtml/posthtml-content/issues",
   "homepage": "https://github.com/posthtml/posthtml-content",
   "repository": "posthtml/posthtml-content",
+  "type": "module",
+  "exports": "./lib/index.js",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18"
   },
   "scripts": {
     "pretest": "xo",
