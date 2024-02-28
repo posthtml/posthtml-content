@@ -29,8 +29,8 @@
     "babel-preset-es2015": "^6.24.1",
     "eslint": "^8.57.0",
     "markdown-it": "^14.0.0",
-    "np": "^9.2.0",
-    "postcss": "^8.4.14",
+    "np": "^10.0.0",
+    "postcss": "^8.4.35",
     "postcss-nested": "^6.0.1",
     "posthtml": "^0.16.6",
     "vitest": "^1.3.1"
