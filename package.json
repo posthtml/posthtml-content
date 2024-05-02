@@ -1,7 +1,7 @@
 {
   "name": "posthtml-content",
   "description": "Flexible content transform for PostHTML",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Jeff Escalante",
   "license": "MIT",
   "bugs": "https://github.com/posthtml/posthtml-content/issues",
