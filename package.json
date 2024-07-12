@@ -24,14 +24,14 @@
   ],
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
-    "@vitest/coverage-v8": "^1.3.1",
+    "@vitest/coverage-v8": "^2.0.2",
     "babel-core": "^6.26.3",
     "babel-preset-es2015": "^6.24.1",
     "markdown-it": "^14.0.0",
     "postcss": "^8.4.35",
     "postcss-nested": "^6.0.1",
     "posthtml": "^0.16.6",
-    "vitest": "^1.3.1"
+    "vitest": "^2.0.2"
   },
   "keywords": [
     "html",
