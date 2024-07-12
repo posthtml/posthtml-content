@@ -8,32 +8,40 @@
   "homepage": "https://github.com/posthtml/posthtml-content",
   "repository": "posthtml/posthtml-content",
   "type": "module",
-  "exports": "./lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "files": [
+    "dist"
+  ],
   "engines": {
     "node": ">=18"
   },
   "scripts": {
     "dev": "vitest",
+    "build": "unbuild",
+    "prepack": "unbuild",
     "test": "vitest run --coverage",
-    "lint": "eslint lib/*.{js,ts}",
+    "lint": "biome lint ./lib",
     "pretest": "npm run lint",
-    "release": "np"
+    "release": "npx np"
   },
-  "files": [
-    "lib"
-  ],
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.1.0",
-    "@vitest/coverage-v8": "^1.3.1",
+    "@biomejs/biome": "1.8.3",
+    "@vitest/coverage-v8": "^2.0.2",
     "babel-core": "^6.26.3",
     "babel-preset-es2015": "^6.24.1",
-    "eslint": "^8.57.0",
     "markdown-it": "^14.0.0",
-    "np": "^10.0.0",
     "postcss": "^8.4.35",
     "postcss-nested": "^6.0.1",
     "posthtml": "^0.16.6",
-    "vitest": "^1.3.1"
+    "unbuild": "^2.0.0",
+    "vitest": "^2.0.2"
   },
   "keywords": [
     "html",
