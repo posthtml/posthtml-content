@@ -8,20 +8,29 @@
   "homepage": "https://github.com/posthtml/posthtml-content",
   "repository": "posthtml/posthtml-content",
   "type": "module",
-  "exports": "./lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "files": [
+    "dist"
+  ],
   "engines": {
     "node": ">=18"
   },
   "scripts": {
     "dev": "vitest",
+    "build": "unbuild",
+    "prepack": "unbuild",
     "test": "vitest run --coverage",
     "lint": "biome lint ./lib",
     "pretest": "npm run lint",
     "release": "npx np"
   },
-  "files": [
-    "lib"
-  ],
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
     "@vitest/coverage-v8": "^2.0.2",
@@ -31,6 +40,7 @@
     "postcss": "^8.4.35",
     "postcss-nested": "^6.0.1",
     "posthtml": "^0.16.6",
+    "unbuild": "^2.0.0",
     "vitest": "^2.0.2"
   },
   "keywords": [
