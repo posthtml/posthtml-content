@@ -38,7 +38,7 @@
     "babel-preset-es2015": "^6.24.1",
     "markdown-it": "^14.0.0",
     "postcss": "^8.4.35",
-    "postcss-nested": "^6.0.1",
+    "postcss-nested": "^7.0.2",
     "posthtml": "^0.16.6",
     "unbuild": "^2.0.0",
     "vitest": "^2.0.2"
